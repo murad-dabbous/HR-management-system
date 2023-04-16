@@ -1,0 +1,62 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+.header{
+  background-color: #BFCCB5;
+  display: flex;
+  justify-content: center;
+  
+  padding: 10px;
+
+}
+.header h1 {
+  margin: 0;
+  font-size: 36px;
+  float: left;
+  color: #fff;
+}
+.header img{
+    height: 50px;
+    
+}
+
+/* Target the nav element within the header */
+.header nav {
+  display: inline-block;
+}
+
+/* Target the ul element within the nav */
+.header nav ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* Target the li elements within the ul */
+.header nav ul li {
+  display: inline-block;
+  margin: 0 10px;
+}
+
+/* Target the links within the li elements */
+.header nav ul li a {
+  color: #fff;
+  text-decoration: none;
+  font-size: 18px;
+}
+.header nav ul li a:hover{
+    color: blue;
+}
+body{
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  /* grid-template-rows: 1fr auto; */
+  background-color: lightgray;
+}
+.footer{
+    background-color: #BFCCB5;
+    padding: 10px;
+}
