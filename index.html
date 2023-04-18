@@ -3,30 +3,70 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">   
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css" integrity="sha512-YWzhKL2whUzgiheMoBFwW8CKV4qpHQAEuvilg9FAn5VJUDwKZZxkJNuGM4XkWuk94WCrrwslk8yWNGmY1EduTA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="./css/index.css">
     <title>Home</title>
 </head>
 <body>
     <header class="header">
-        <img src="https://www.luminuseducation.com/wp-content/uploads/2021/10/tvet.jpg" alt="logo"/>
-        <h1>Management</h1>
+        <div class="container">
+            <a href="index.html">
+                <img src="https://i0.wp.com/www.eyeofriyadh.com/directory/images/2019/06/51aa54058833.jpg" alt="logo" class="logo"/>
+            </a>
+        <h1> Management </h1>
         <nav>
             <ul>
-                <li><a href="#">Home</a></li>
-                <li><a href="accounting.html">Accounting</a></li>
+                <li><a href="#" class="active"> Home </a></li>
+                <li><a href="accounting.html"> Accounting </a></li>
             </ul>
         </nav>
+        </div>
     </header>
     <main id="main">
-        <p id="rendering"></p>
+        <div class="container">
+            <form id="emp-form">
+                <div class="form-control">
+                    <label for="fullname">Fullname</label>
+                    <input type="text" name="fullname" id="fullname">
+                </div>
+                <div class="form-control">
+                    <label for="department">Department</label>
+                    <select name="department" id="department">
+                        <option value="administration">Administration</option>
+                        <option value="marketing">Marketing</option>
+                        <option value="development">Development</option>
+                        <option value="finance">Finance</option>
+                    </select>
+                </div>
+                <div class="form-control">
+                    <label for="level">Level</label>
+                    <select name="level" id="level">
+                        <option value="junior">Junior</option>
+                        <option value="mid-senior">Mid-Senior</option>
+                        <option value="senior">Senior</option>
+                    </select>
+                </div>
+                <div class="form-control">
+                    <label for="image">Image Url</label>
+                    <input type="text" name="image" id="image">
+                </div>
+                <div class="form-submit-button">
+                    <button type="submit">Submit</button>
+                </div>
+            </form>
+        </div>
+        <!-- <p id="rendering"></p> -->
+        <div class="card" id="rendering">
+
+        </div>
     </main>
     <footer class="footer"> 
-        <div class="footer">
-            <span>All rights reserved by &copy; Murad Dabbous</span>
-            <a href="#"><i class="fa-brands fa-facebook"></i>Facebook</a>
-            <a href="#"><i class="fa-brands fa-twitter"></i>Twitter</a>
-            <a href="#"><i class="fa-brands fa-github"></i>GitHub</a>
+        <div class="container">
+            <p>All rights reserved by &copy; Murad Dabbous 2023</p>
+            <a href="#"><i class="fa-brands fa-facebook"></i></a>
+            <a href="#"><i class="fa-brands fa-twitter"></i></a>
+            <a href="#"><i class="fa-brands fa-github"></i></a>
         </div>
     </footer>
     <script src="./app.js"></script>
