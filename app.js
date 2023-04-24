@@ -1,5 +1,5 @@
 'use strict';
-let employees = [];
+// let employees = [];
 // constructor
 function Employee(employeeId,fullName,department,level,imageUrl,salary = 0) {
     // keys and values
@@ -9,8 +9,13 @@ function Employee(employeeId,fullName,department,level,imageUrl,salary = 0) {
     this.level = level;
     this.imageUrl = imageUrl;
     this.salary = salary;
-    employees.push(this);
+    // line below ??
+    // EVERY OBJECT CREATED WILL BE PUSHED TO THE NEW ARRAY 
+    Employee.employees.push(this);
 }
+// array as property
+Employee.employees = [];
+
 // Generate unique id 
 const createEmployeeId = () => {
     const empId = Math.floor(Math.random() * 9000 + 1000);
@@ -31,35 +36,6 @@ Employee.prototype.calculateSalary = function (level) {
         netSalary = this.salary * 7.5;
     }
 };
-
-// -------------------- Add data manually
-// let emp1 = new Employee(createEmployeeId(), 'Ghazi Samer', 'Administration', 'Senior', 'assets/img/Ghazi.jpg');
-// emp1.calculateSalary('senior');
-// console.log(emp1);
-// let emp2 = new Employee(createEmployeeId(), 'Lana Ali', 'Finance', 'senior', './assets/img/Lana.jpg');
-// emp2.calculateSalary('senior');
-// console.log(emp2);
-// let emp3 = new Employee(createEmployeeId(), 'Tamara Ayoub', 'Marketing', 'senior', './assets/img/Tamara.jpg');
-// emp3.calculateSalary('senior');
-// console.log(emp3);
-// let emp4 = new Employee(createEmployeeId(), 'Safi Walid', 'Administration', 'mid-senior', './assets/img/Safi.jpg');
-// emp4.calculateSalary('mid-senior');
-// console.log(emp4);
-// let emp5 = new Employee(createEmployeeId(), 'Omar Zaid', 'Development', 'senior', './assets/img/Omar.jpg');
-// emp5.calculateSalary('senior');
-// console.log(emp5);
-// let emp6 = new Employee(createEmployeeId(), 'Rana Saleh', 'Development', 'junior', './assets/img/Rana.jpg');
-// emp6.calculateSalary('junior');
-// console.log(emp6);
-// let emp7 = new Employee(createEmployeeId(), 'Hadi Ahmad', 'Finance', 'mid-senior', './assets/img/Hadi.jpg');
-// emp7.calculateSalary('mid-senior');
-// console.log(emp7);
-// // // Add them to the array
-// employees.push(emp1, emp2, emp3, emp4, emp5, emp6, emp7);
-// for (let i = 0; employees.length; i++){
-//     employees[i].render();
-// }
-
 //---------------------
 
 //
@@ -77,20 +53,57 @@ function addNewEmployee(event) {
     // console.log(event.target.image.value);
     // add employee from the form data
     let newEmp = new Employee(empId, fullname, department, level, image);
-    console.log(department);
+    // console.log(department);
     newEmp.calculateSalary(level);
     // employees.push(newEmp);
     newEmp.render();
-    console.log(newEmp);
-    
+    // console.log(Employee.employees);
+    saveToLocalStorage();
+    // Employee.employees.push(newEmp);
+    // save newEmp object in localStorage
+    // convert it to json object
+    // const convToJsonObj = JSON.stringify(newEmp);
+    // const saveToLocalStorage = localStorage.setItem('New Employee', convToJsonObj);
+    // const getEmployeeFromLocalStorage = localStorage.getItem('New Employee');
+    // // convert it normal js object
+    // const convertBackToJsObject = JSON.parse(getEmployeeFromLocalStorage);
+    // console.log(newEmp);
+    // console.log(saveToLocalStorage);
+    // console.log(convertBackToJsObject);
 }
 // Get the data from the form
 const myForm = document.getElementById('emp-form');
 myForm.addEventListener('submit', addNewEmployee);
+// Saving data inside the local storage
+function saveToLocalStorage() { 
+    let data = JSON.stringify(Employee.employees);
+    localStorage.setItem('employees', data);
+}
+// Get data from local storage
+function getDataFromLocalStorage() { 
+    // get data from local storage
+    let strObj = localStorage.getItem('employees');
+    // parse it [to normal js object]
+    let parseObj = JSON.parse(strObj);
+    // check if the array is not empty
+    if (parseObj !== null) {
+        // Employee.employees = parseObj;
+        for (let i = 0; i < parseObj.length; i++){
+             new Employee(createEmployeeId(), parseObj[i].fullname, parseObj[i].department, parseObj[i].level,
+                 parseObj[i].imageUrl);
+            }
+            Employee.employees[0].render();
+        }
+}
 // Render prototype function
 Employee.prototype.render = function() {
     let renderEmp = document.getElementById('rendering');
-    let administrationDep = document.getElementById('administration');
+    renderEmp.innerHTML = '';
+
+    // render from local storage
+    for (let i = 0; i < Employee.employees.length; i++){
+        let addedEmployee = Employee.employees[i];
+  let administrationDep = document.getElementById('administration');
     // console.log(administrationDep);
     let marketingDep = document.getElementById('marketing');
     let financeDep = document.getElementById('finance');
@@ -100,73 +113,76 @@ Employee.prototype.render = function() {
     divEle.setAttribute('class', 'card');
     renderEmp.appendChild(divEle);
     let img = document.createElement('img');
-    img.setAttribute('src', this.imageUrl);
+    img.setAttribute('src', addedEmployee.imageUrl);
     divEle.appendChild(img);
     let h4Ele = document.createElement('h4');
     h4Ele.setAttribute('class', 'card-title');
-    h4Ele.textContent = 'Name: ' + this.fullName + ' - ID: ' + createEmployeeId() + '\n' ;
+    h4Ele.textContent = 'Name: ' + addedEmployee.fullName + ' - ID: ' + createEmployeeId() + '\n' ;
     divEle.appendChild(h4Ele);
     let spEle = document.createElement('span');
-    spEle.textContent = 'Department: ' + this.department + ' - Level: ' + this.level + ' ' + '\n';
+    spEle.textContent = 'Department: ' + addedEmployee.department + ' - Level: ' + addedEmployee.level + ' ' + '\n';
     divEle.appendChild(spEle);
     let h5Ele = document.createElement('h5');
-    h5Ele.textContent = this.salary + '\n';
+    h5Ele.textContent = addedEmployee.salary + '\n';
         divEle.appendChild(h5Ele);
         administrationDep.appendChild(divEle);
-    } else if (this.department === 'finance') {
+    } else if (addedEmployee.department === 'finance') {
            let divEle = document.createElement('div');
             divEle.setAttribute('class', 'card');
             renderEmp.appendChild(divEle);
             let img = document.createElement('img');
-            img.setAttribute('src', this.imageUrl);
+            img.setAttribute('src', addedEmployee.imageUrl);
             divEle.appendChild(img);
             let h4Ele = document.createElement('h4');
             h4Ele.setAttribute('class', 'card-title');
-            h4Ele.textContent = 'Name: ' + this.fullName + ' - ID: ' + createEmployeeId() + '\n' ;
+            h4Ele.textContent = 'Name: ' + addedEmployee.fullName + ' - ID: ' + createEmployeeId() + '\n' ;
             divEle.appendChild(h4Ele);
             let spEle = document.createElement('span');
-            spEle.textContent = 'Department: ' + this.department + ' - Level: ' + this.level + ' ' + '\n';
+            spEle.textContent = 'Department: ' + addedEmployee.department + ' - Level: ' + addedEmployee.level + ' ' + '\n';
             divEle.appendChild(spEle);
             let h5Ele = document.createElement('h5');
-            h5Ele.textContent = this.salary + '\n';
+            h5Ele.textContent = addedEmployee.salary + '\n';
         divEle.appendChild(h5Ele);
         financeDep.appendChild(divEle);
-    } else if (this.department === 'marketing') {
+    } else if (addedEmployee.department === 'marketing') {
          let divEle = document.createElement('div');
             divEle.setAttribute('class', 'card');
             renderEmp.appendChild(divEle);
             let img = document.createElement('img');
-            img.setAttribute('src', this.imageUrl);
+            img.setAttribute('src', addedEmployee.imageUrl);
             divEle.appendChild(img);
             let h4Ele = document.createElement('h4');
             h4Ele.setAttribute('class', 'card-title');
-            h4Ele.textContent = 'Name: ' + this.fullName + ' - ID: ' + createEmployeeId() + '\n' ;
+            h4Ele.textContent = 'Name: ' + addedEmployee.fullName + ' - ID: ' + createEmployeeId() + '\n' ;
             divEle.appendChild(h4Ele);
             let spEle = document.createElement('span');
-            spEle.textContent = 'Department: ' + this.department + ' - Level: ' + this.level + ' ' + '\n';
+            spEle.textContent = 'Department: ' + addedEmployee.department + ' - Level: ' + addedEmployee.level + ' ' + '\n';
             divEle.appendChild(spEle);
             let h5Ele = document.createElement('h5');
-            h5Ele.textContent = this.salary + '\n';
+            h5Ele.textContent = addedEmployee.salary + '\n';
             divEle.appendChild(h5Ele);
             marketingDep.appendChild(divEle);
-    } else if(this.department === 'development'){
+    } else if(addedEmployee.department === 'development'){
           let divEle = document.createElement('div');
                 divEle.setAttribute('class', 'card');
                 renderEmp.appendChild(divEle);
                 let img = document.createElement('img');
-                img.setAttribute('src', this.imageUrl);
+                img.setAttribute('src', addedEmployee.imageUrl);
                 divEle.appendChild(img);
                 let h4Ele = document.createElement('h4');
                 h4Ele.setAttribute('class', 'card-title');
-                h4Ele.textContent = 'Name: ' + this.fullName + ' - ID: ' + createEmployeeId() + '\n' ;
+                h4Ele.textContent = 'Name: ' + addedEmployee.fullName + ' - ID: ' + createEmployeeId() + '\n' ;
                 divEle.appendChild(h4Ele);
                 let spEle = document.createElement('span');
-                spEle.textContent = 'Department: ' + this.department + ' - Level: ' + this.level + ' ' + '\n';
+                spEle.textContent = 'Department: ' + addedEmployee.department + ' - Level: ' + addedEmployee.level + ' ' + '\n';
                 divEle.appendChild(spEle);
                 let h5Ele = document.createElement('h5');
-                h5Ele.textContent = this.salary + '\n';
+                h5Ele.textContent = addedEmployee.salary + '\n';
                 divEle.appendChild(h5Ele);
                 developmentDep.appendChild(divEle);
     }
+    }
 };
+getDataFromLocalStorage();
+
 
