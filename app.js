@@ -76,5 +76,5 @@ Employee.prototype.render = function () {
 };
 for (let i = 0; i < Employee.employees.length; i++) {
   //   render(Employee.employees[i]);
-  Employee.employees[i].render();
+  // Employee.employees[i].render();
 }
