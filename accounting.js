@@ -1,67 +1,104 @@
-// get stored employeed from local storage
-let employees = [];
-function getEmplyeesFromLocalStorage() {
-  // get data from local storage
-  let strObj = localStorage.getItem("employees");
-  // parse it [to normal js object]
-  let parseObj = JSON.parse(strObj);
-  // check if the array is not empty
-  if (parseObj !== null) {
-    // Employee.employees = parseObj;
-    for (let i = 0; i < parseObj.length; i++) {
-      new Employee(
-        createEmployeeId(),
-        parseObj[i].fullname,
-        parseObj[i].department,
-        parseObj[i].level,
-        parseObj[i].imageUrl
-      );
+// adjusted accounting.js
+const obj = {
+  administration: {
+    name: "Administration",
+    numberOfEmployees: 0,
+    avgSalary: 0,
+    totalSalary: 0,
+  },
+  development: {
+    name: "Development",
+    numberOfEmployees: 0,
+    avgSalary: 0,
+    totalSalary: 0,
+  },
+  marketing: {
+    name: "Marketing",
+    numberOfEmployees: 0,
+    avgSalary: 0,
+    totalSalary: 0,
+  },
+  finance: {
+    name: "Finance",
+    numberOfEmployees: 0,
+    avgSalary: 0,
+    totalSalary: 0,
+  },
+};
 
-      // Employee.employees.push(parsedEmployee);
-    }
-    Employee.employees[0].render();
+function getDataFromLocalStorage() {
+  let stringObj = localStorage.getItem("inf");
+  let parseObj = JSON.parse(stringObj);
+  return parseObj;
+}
+
+const employeesList = getDataFromLocalStorage();
+
+for (let i = 0; i < employeesList.length; i++) {
+  const employee = employeesList[i];
+  if (employee.department === "Administration") {
+    obj.administration.numberOfEmployees += 1;
+    obj.administration.totalSalary += employee.salary;
+    obj.administration.avgSalary =
+      obj.administration.totalSalary / obj.administration.numberOfEmployees;
+  } else if (employee.department === "Development") {
+    obj.development.numberOfEmployees += 1;
+    obj.development.totalSalary += employee.salary;
+    obj.development.avgSalary =
+      obj.development.totalSalary / obj.development.numberOfEmployees;
+  } else if (employee.department === "Marketing") {
+    obj.marketing.numberOfEmployees += 1;
+    obj.marketing.totalSalary += employee.salary;
+    obj.marketing.avgSalary =
+      obj.marketing.totalSalary / obj.marketing.numberOfEmployees;
+  } else {
+    obj.finance.numberOfEmployees += 1;
+    obj.finance.totalSalary += employee.salary;
+    obj.finance.avgSalary =
+      obj.finance.totalSalary / obj.finance.numberOfEmployees;
   }
 }
-// render emplyees in a table according to their departments
-function renderEmployees() {
-  let table = document.createElement("table");
-  let tableRow = document.createElement("tr");
-  let tableD = document.createElement("td");
-  for (let i = 0; i < employees.length; i++) {
-    tableD = document.createElement("td");
-    tableD.textContent = employees[i].imageUrl;
-    tableD.textContent = employees[i].fullname;
-    tableD.textContent += employees[i].department;
-    tableD.textContent += employees[i].level;
-    tableD.textContent += employees[i].salary;
-    tableRow.appendChild(tableD);
-    table.appendChild(tableRow);
-  }
+
+for (let key in obj) {
+  const dept = obj[key];
+  const tbody = document.getElementById("tbody");
+
+  const nameTD = document.createElement("td");
+  const noOfEmpTD = document.createElement("td");
+  const avgTD = document.createElement("td");
+  const totalTD = document.createElement("td");
+
+  nameTD.textContent = dept.name;
+  noOfEmpTD.textContent = dept.numberOfEmployees;
+  avgTD.textContent = dept.avgSalary;
+  totalTD.textContent = dept.totalSalary;
+
+  const departmentRow = document.createElement("tr");
+
+  departmentRow.appendChild(nameTD);
+  departmentRow.appendChild(noOfEmpTD);
+  departmentRow.appendChild(avgTD);
+  departmentRow.appendChild(totalTD);
+
+  tbody.appendChild(departmentRow);
 }
-function calculateAverageSalary() {
-  let totalSalarySum = 0;
-  let administrationSum = 0;
-  let marketingSum = 0;
-  let developmentSum = 0;
-  let financeSum = 0;
-  for (let i = 0; i < employees.length; i++) {
-    if (this.department === "administration") {
-      administrationSum += this.salary;
-    } else if (this.department === "marketing") {
-      marketingSum += this.salary;
-    } else if (this.department === "development") {
-      developmentSum += this.salary;
-    } else {
-      financeSum += this.salary;
-    }
-  }
-  totalSalarySum =
-    administrationSum + marketingSum + developmentSum + financeSum;
-  let average = totalSalarySum / employees.length;
-  console.log(totalSalarySum);
-  console.log(average);
-}
-function numOfEmployeesInEachDepartment() {}
-renderEmployees();
-getEmplyeesFromLocalStorage();
-calculateAverageSalary();
+
+const totalNumber = document.getElementById("totalNumber");
+const totalSalary = document.getElementById("totalSalary");
+const avgSal = document.getElementById("avgSal");
+
+const totalNumberValue =
+  obj.administration.numberOfEmployees +
+  obj.development.numberOfEmployees +
+  obj.marketing.numberOfEmployees +
+  obj.finance.numberOfEmployees;
+const totalSalaryValue =
+  obj.administration.totalSalary +
+  obj.development.totalSalary +
+  obj.marketing.totalSalary +
+  obj.finance.totalSalary;
+const avgSalValue = totalSalaryValue / totalNumberValue;
+
+totalNumber.textContent = "Total number of all employees : " + totalNumberValue;
+totalSalary.textContent = "Total salary of all employees : " + totalSalaryValue;
+avgSal.textContent = "Average salary of all employees : " + avgSalValue;
