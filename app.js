@@ -1,4 +1,3 @@
-// adjusted app.js
 "use strict";
 // constructor function
 function Employee(fullName, department, level, salary) {
@@ -9,15 +8,14 @@ function Employee(fullName, department, level, salary) {
   // Employee.allData.push(this)
 }
 Employee.allData = [];
+
+// prototype
 // Render the data
 Employee.prototype.render = function () {
   const Employee = document.getElementById("employeeEle");
   // employeeEle.innerHTML = '';
-  let unique = Math.ceil(Math.random() * 10000);
+  let uniq = Math.ceil(Math.random() * 10000);
 
-  // creat an Elementmnt
-  // append the elemnt to the parent
-  // adding the text to the created elemnt
   const pEle3 = document.createElement("p");
   const pEle = document.createElement("p");
   const p1Ele = document.createElement("p");
@@ -27,7 +25,7 @@ Employee.prototype.render = function () {
   pEle.textContent = this.fullName;
   p1Ele.textContent = this.department;
   p2Ele.textContent = this.level;
-  pEle3.textContent = unique;
+  pEle3.textContent = uniq;
 
   divEle.appendChild(pEle3);
   divEle.appendChild(pEle);
@@ -83,7 +81,7 @@ function saveData() {
   localStorage.setItem("inf", data);
 }
 
-// Getting the data from the localStorage
+// Gitting the data from the localStorage
 function getDataFromLocalStorage() {
   let stringObj = localStorage.getItem("inf");
   let parseObj = JSON.parse(stringObj);
