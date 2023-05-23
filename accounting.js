@@ -1,4 +1,3 @@
-// adjusted accounting.js
 const obj = {
   administration: {
     name: "Administration",
@@ -99,6 +98,8 @@ const totalSalaryValue =
   obj.finance.totalSalary;
 const avgSalValue = totalSalaryValue / totalNumberValue;
 
-totalNumber.textContent = "Total number of all employees : " + totalNumberValue;
-totalSalary.textContent = "Total salary of all employees : " + totalSalaryValue;
-avgSal.textContent = "Average salary of all employees : " + avgSalValue;
+totalNumber.textContent = "Total number of all employees  " + totalNumberValue;
+totalSalary.textContent =
+  "Total salary of all employees  " + totalSalaryValue.toFixed(2);
+avgSal.textContent =
+  "Average salary of all employees  " + avgSalValue.toFixed(2);

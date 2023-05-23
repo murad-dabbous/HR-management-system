@@ -61,27 +61,29 @@ td {
   border: 2px solid black;
 }
 body {
-  min-height: 120vh;
+  height: 100vh;
   /*display: flex;
   flex-direction: column;
   /* grid-template-rows: 1fr auto; 
   background-color: lightgray; */
 }
 .footer {
-  position: fixed;
+  position: relative;
   bottom: 0;
   width: 100%;
+  margin-top: 40px;
 }
 .footer .container {
   display: flex;
   justify-content: center;
   align-items: center;
-  /* position: relative; */
+  position: relative;
   background-color: #3c486b;
   color: white;
 }
 .footer .container p {
   font-size: 17px;
+  color: white !important;
 }
 .footer .container a {
   color: white;
